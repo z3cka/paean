@@ -8,11 +8,10 @@
   <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
-    var localStorageKey = "listStorageKey";    
-    $('#list-add-link').click(function(e) {
-      localStorage.setItem(localStorageKey, $('#event-title2').val());
-      alert("woot!");
-    });
+      var localStorageKey = "listStorageKey";    
+      $('#list-add-link').click(function(e) {
+        localStorage.setItem(localStorageKey, $('#event-title').val());
+      });
     });
   </script>
 </head> 
@@ -25,14 +24,8 @@
     </div><!-- /header -->
   
     <div data-role="content">
-      <form action="list-create.html" data-transition="slide" id="list-create">
-        <label>What event is this Paean for?</label>
-        <input type="text" name="event" id="event-title" value="foo" />
-        <button id ="list-add" type="submit" data-theme="b" data-icon="arrow-r" data-iconpos="right" data-transition="slide">Add List</button>
-      </form>
-      <p>Take 2:</p>
-      <label>Event Title:</label>
-      <input type="text" name="event-title" id="event-title2" value="" />
+      <label>What event are you thanking people for?</label>
+      <input type="text" name="event-title" id="event-title" value="" />
       <a href="#list-create-multi" id="list-add-link" data-role="button" data-icon="arrow-r" data-inline="true" data-theme="b" data-transition="slide">Add List</a>
     </div><!-- /content -->
   
