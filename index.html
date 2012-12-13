@@ -9,6 +9,11 @@
   <script type="text/javascript">
     $(document).ready(function(){
       // load lists
+      for(var i=0, len=localStorage.length; i<len; i++) {
+        var key = localStorage.key(i);
+        var value = localStorage[key];
+        console.log(key + " => " + value);
+      }
       
       $('#list-add-link').click(function(e) {
         var localStorageKey = "listStorageKey" + $('#event-title').val();
