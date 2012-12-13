@@ -2,7 +2,7 @@
 <html> 
 <head> 
   <title>Paean</title> 
-  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0"> 
   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
   <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
@@ -15,7 +15,7 @@
         for(var i=0, len=localStorage.length; i<len; i++) {
           var key = localStorage.key(i);
           var value = localStorage[key];
-          console.log(key + " => " + value);
+//          console.log(key + " => " + value);
           if (value.length > 0) {
             $('ul#lists').append('<li><a href="#list-multi">'+key+'</a></li>');
             $('ul#lists').listview('refresh');
@@ -23,19 +23,32 @@
         }
       }
       loadLists();
+
       // click listener of the list of lists
       $('ul#lists').on('click', 'a', function() {
         $('#list-multi h1 span#list-header-title').text($(this).text());
       });
-      // add a list
-      $('#list-add-link').click(function(e) {
+
+      // add a list TODO:(and add to a list...)
+      $('#list-add').on('click', function() {
         var localStorageKey = $('#event-title').val();
         // store event
-        localStorage.setItem(localStorageKey, $('#event-title').val());
+        localStorage.setItem(localStorageKey, checkForItems(localStorageKey));
         // put event in header of list create page
         var item = localStorage.getItem(localStorageKey);
-        $('#list-create-multi h1').text(item);
+        $('#list-create-multi h1').text(localStorageKey);
       });
+
+      // function to check if list has anything in it and if so return value
+      var checkForItems = function(lsk) {
+        if(localStorage.getItem(lsk) != null ) {
+//          return "item from db";
+          return localStorage.getItem(lsk);
+        } else {
+          return "n/a";
+        }
+      }
+
       // delete list
       $('#list-delete-yes').click(function() {
         localStorage.removeItem($('#list-multi h1 span#list-header-title').text());
@@ -46,6 +59,29 @@
         loadLists();
         // clear event title
         $('#event-title').val("");
+      });
+
+      // add item to list
+      var items = [];
+      $('a#list-add-item').click(function() {
+        // grab list title and use it as the key and set new values
+        
+        // array of strings
+//        var items = [];
+        items.push($('#thank-who').val()+" for "+$('#thank-what').val());
+
+        console.log(JSON.stringify(items));
+        localStorage.setItem($('#list-create-multi h1').text(), JSON.stringify(items));
+//        console.log(items);
+        // array of objects
+//        var localObj = {};
+//        localObj.localArray = [];
+//        localObj.localArray.push()
+        
+        // TODO: the above will nuke existing data for now and just store the values as a string for now
+        // TODO: implement JSON.stringify() and JSON.parse() i
+        // clear add item form
+        $('#thank-who, #thank-what').val("");
       });
     });
   </script>
@@ -61,7 +97,14 @@
     <div data-role="content">
       <label>What event will you be thanking people for?</label>
       <input type="text" name="event-title" id="event-title" value="" />
-      <a href="#list-create-multi" id="list-add-link" data-role="button" data-icon="arrow-r" data-inline="true" data-theme="b" data-transition="slide">Add List</a>
+      <div class="ui-grid-a">
+        <div class="ui-block-a">
+          <p></p>
+        </div>
+        <div class="ui-block-b">
+          <a href="#list-create-multi" id="list-add" data-role="button" data-icon="arrow-r" data-iconpos="right" data-theme="b" data-transition="slide">Add List</a>
+        </div>
+      </div>
       <h2>Lists</h2>
       <ul data-role="listview" data-inset="true" id="lists">
 	  </ul>
@@ -95,7 +138,10 @@
           <p></p>
         </div>
         <div class="ui-block-b">
-          <a href="#" data-icon="plus" data-iconpos="right" data-role="button" data-theme="e">Add</a>
+          <a href="#item-added" data-icon="plus" data-iconpos="right" data-rel="popup" data-position-to="window" data-role="button" data-theme="e" id="list-add-item">Add</a>
+          <div data-role="popup" data-overlay-theme="a" id="item-added">
+            <p>Item added to list :-)<p>
+          </div>
         </div>
       </div>
     </div><!-- /content -->
@@ -108,7 +154,7 @@
       </div><!-- /navbar -->
     </div><!-- /footer -->
   </div><!-- /page #list-create-multi -->
-  
+
   <div data-role="page" id="list-multi">
     <div data-role="header">
       <a href="#home" class="home" data-role="button" data-icon="arrow-l">Back</a>
