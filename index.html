@@ -10,6 +10,7 @@
     var localStorageKey = "listStorageKey";    
     $('form#list-create').submit(function() {
       localStorage.setItem(localStorageKey, $('input#event-title').val());
+      alert("woot!");
     });
   </script>
 </head> 
