@@ -15,6 +15,7 @@
         // put event in header of list create page
         var item = localStorage.getItem(localStorageKey);
         $('#list-create-multi header h1').text(item);
+        $('#list-create-multi header h1').text($('#event-title').val());
       });
     });
   </script>
