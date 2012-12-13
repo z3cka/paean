@@ -20,9 +20,8 @@
       }
       // click listener of the list of lists
       $('ul#lists li a').click(function(e) {
-        console.log(e);
         alert("you clicked: "+$(this).text());
-        //alert("nice");
+        $('#list-multi h1 span').text($(this).text());
       });
       
       $('#list-add-link').click(function(e) {
@@ -32,7 +31,6 @@
         // put event in header of list create page
         var item = localStorage.getItem(localStorageKey);
         $('#list-create-multi h1').text(item);
-        //$('#list-create-multi h1').text($('#event-title').val());
       });
     });
   </script>
