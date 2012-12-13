@@ -8,8 +8,9 @@
   <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
-      var localStorageKey = "listStorageKey";    
+      //var localStorageKey = "listStorageKey";    
       $('#list-add-link').click(function(e) {
+        var localStorageKey = "listStorageKey" + $('#event-title').val();
         //alert(e);
         console.log(e);
         // store event
