@@ -24,6 +24,7 @@
       }
       loadLists();
       // click listener of the list of lists
+      // TODO: fix this function as it only fires once.
       $('ul#lists li a').on('click', function() {
         $('#list-multi h1 span#list-header-title').replaceWith($(this).text());
         alert($(this).text());
