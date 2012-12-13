@@ -18,6 +18,11 @@
           $('ul#lists').listview('refresh');
         }
       }
+      // click listener of the list of lists
+      $('ul#lists li a').click(function(e) {
+        console.log(e);
+        alert("you clicked: "+$(this).text()):
+      }
       
       $('#list-add-link').click(function(e) {
         var localStorageKey = $('#event-title').val();
