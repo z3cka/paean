@@ -64,13 +64,13 @@
       // add item to list
       var items = [];
       $('a#list-add-item').click(function() {
-        // grab list title and use it as the key and set new values
-        
-        // array of strings
-//        var items = [];
+        // grab list of existing values from database and parse into array of strings
+        items = JSON.parse(localStorage.getItem($('#list-create-multi h1').text()));
+        // add new value to end of array 
         items.push($('#thank-who').val()+" for "+$('#thank-what').val());
 
         console.log(JSON.stringify(items));
+        // save item to database
         localStorage.setItem($('#list-create-multi h1').text(), JSON.stringify(items));
 //        console.log(items);
         // array of objects
@@ -78,9 +78,7 @@
 //        localObj.localArray = [];
 //        localObj.localArray.push()
         
-        // TODO: the above will nuke existing data for now and just store the values as a string for now
-        // TODO: implement JSON.stringify() and JSON.parse() i
-        // clear add item form
+        // clear added item form
         $('#thank-who, #thank-what').val("");
       });
     });
