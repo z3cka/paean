@@ -13,7 +13,7 @@
         var key = localStorage.key(i);
         var value = localStorage[key];
         console.log(key + " => " + value);
-        alert(value);
+        //alert(value);
         $('#lists ul').append('<li>'+value+'</li>');
       }
       
@@ -45,6 +45,7 @@
       <a href="#list-create-multi" id="list-add-link" data-role="button" data-icon="arrow-r" data-inline="true" data-theme="b" data-transition="slide">Add List</a>
       <h2>Lists</h2>
       <ul data-role="listview" data-inset="true" id="lists">
+        <li>test</li>
 	  </ul>
     </div><!-- /content -->
   
