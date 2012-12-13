@@ -13,9 +13,8 @@
         var key = localStorage.key(i);
         var value = localStorage[key];
         console.log(key + " => " + value);
-        //alert(value);
-        if (value.length > 0) {
-          $('ul#lists').append('<li>'+value+'</li>');
+        if (key.length > 0) {
+          $('ul#lists').append('<li>'+key+'</li>');
           $('ul#lists').listview('refresh');
         }
       }
