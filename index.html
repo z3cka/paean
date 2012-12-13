@@ -25,7 +25,7 @@
       loadLists();
       // click listener of the list of lists
       $('ul#lists li a').click(function(e) {
-        $('#list-multi h1 span#list-header-title').text($(this).text());
+        $('#list-multi h1 span#list-header-title').text($(this).val());
       });
       // add a list
       $('#list-add-link').click(function(e) {
