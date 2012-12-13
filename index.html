@@ -14,7 +14,6 @@
         localStorage.setItem(localStorageKey, $('#event-title').val());
         // put event in header of list create page
         var item = localStorage.getItem(localStorageKey);
-        alert(item);
         $('#list-create-multi h1').text(item);
         //$('#list-create-multi h1').text($('#event-title').val());
       });
