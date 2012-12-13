@@ -15,7 +15,7 @@
         console.log(key + " => " + value);
         //alert(value);
         $('ul#lists').append('<li>'+value+'</li>');
-        //$('#lists ul').listview('refresh');
+        $('ul#lists').listview('refresh');
       }
       
       $('#list-add-link').click(function(e) {
