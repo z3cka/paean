@@ -17,7 +17,7 @@
           var value = localStorage[key];
 //          console.log(key + " => " + value);
           if (value.length > 0) {
-            $('ul#lists').append('<li><a href="#list-multi">'+key+'</a></li>');
+            $('ul#lists').append('<li><a href="#list-multi" data-transition="slide">'+key+'</a></li>');
             $('ul#lists').listview('refresh');
           }
         }
@@ -66,21 +66,21 @@
       $('a#list-add-item').click(function() {
         // grab list of existing values from database and parse into array of strings
         items = JSON.parse(localStorage.getItem($('#list-create-multi h1').text()));
-        // add new value to end of array 
-        items.push($('#thank-who').val()+" for "+$('#thank-what').val());
-
-        console.log(JSON.stringify(items));
+        // add new value to end of array as object
+        var item = new itemobject($('#thank-who').val(), $('#thank-what').val());
+        items.push(item);
+console.log(JSON.stringify(items));
         // save item to database
         localStorage.setItem($('#list-create-multi h1').text(), JSON.stringify(items));
-//        console.log(items);
-        // array of objects
-//        var localObj = {};
-//        localObj.localArray = [];
-//        localObj.localArray.push()
-        
         // clear added item form
         $('#thank-who, #thank-what').val("");
       });
+
+      // constructor for itemobject
+      function itemobject(p1,p2) {
+        this.who = p1;
+        this.what = p2;
+      }
     });
   </script>
 </head> 
