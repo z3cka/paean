@@ -9,7 +9,7 @@
   <script type="text/javascript">
     $(document).ready(function(){
       // load lists
-      function loadLists {
+      var loadLists = function() {
         for(var i=0, len=localStorage.length; i<len; i++) {
           var key = localStorage.key(i);
           var value = localStorage[key];
