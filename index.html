@@ -10,6 +10,8 @@
     $(document).ready(function(){
       // load lists
       var loadLists = function() {
+        // remove lists before rebuilding
+        $('ul#lists').empty();
         for(var i=0, len=localStorage.length; i<len; i++) {
           var key = localStorage.key(i);
           var value = localStorage[key];
