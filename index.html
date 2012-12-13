@@ -8,8 +8,8 @@
   <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
   <script type="text/javascript">
     var localStorageKey = "listStorageKey";    
-    $('a#list-create-multi').click(function() {
-      localStorage.setItem(localStorageKey, $('input#event-title2').val());
+    $('#list-create-multi').click(function() {
+      localStorage.setItem(localStorageKey, $('#event-title2').val());
       alert("woot!");
     });
   </script>
