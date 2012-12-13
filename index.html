@@ -10,7 +10,11 @@
     $(document).ready(function(){
       var localStorageKey = "listStorageKey";    
       $('#list-add-link').click(function(e) {
+        // store event
         localStorage.setItem(localStorageKey, $('#event-title').val());
+        // put event in header of list create page
+        var item = localStorage.getItem(localStorageKey);
+        $('#list-create-multi header h1').text(item);
       });
     });
   </script>
@@ -41,7 +45,12 @@
   </div><!-- /page -->
   
   <div data-role="page" id="list-create-multi">
+    
     <div data-role="content">
+      <div data-role="header">
+        <h1>Paean</h1>
+      </div><!-- /header -->
+      
       <p>Did the local storage work?</p>
     </div><!-- /content -->
   </div><!-- /page #list-create-multi -->
