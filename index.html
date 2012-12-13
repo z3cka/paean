@@ -10,7 +10,8 @@
     $(document).ready(function(){
       var localStorageKey = "listStorageKey";    
       $('#list-add-link').click(function(e) {
-        alert(e);
+        //alert(e);
+        console.log(e);
         // store event
         localStorage.setItem(localStorageKey, $('#event-title').val());
         // put event in header of list create page
