@@ -14,7 +14,7 @@
         var value = localStorage[key];
         console.log(key + " => " + value);
         if (value.length > 0) {
-          $('ul#lists').append('<li>'+key+'</li>');
+          $('ul#lists').append('<li><a href="#list-multi">'+key+'</a></li>');
           $('ul#lists').listview('refresh');
         }
       }
