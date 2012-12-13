@@ -19,8 +19,6 @@
       
       $('#list-add-link').click(function(e) {
         var localStorageKey = "listStorageKey" + $('#event-title').val();
-        //alert(e);
-        console.log(e);
         // store event
         localStorage.setItem(localStorageKey, $('#event-title').val());
         // put event in header of list create page
