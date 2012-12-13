@@ -22,7 +22,7 @@
       $('ul#lists li a').click(function(e) {
         $('#list-multi h1 span#list-header-title').text($(this).text());
       });
-      
+      // add a list
       $('#list-add-link').click(function(e) {
         var localStorageKey = $('#event-title').val();
         // store event
@@ -34,6 +34,7 @@
       // delete list
       $('#list-delete-yes').click(function() {
         localStorage.removeItem($('#list-multi h1 span#list-header-title').text());
+        $('ul#lists').listview('refresh');
       });
     });
   </script>
