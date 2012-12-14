@@ -15,7 +15,6 @@
         for(var i=0, len=localStorage.length; i<len; i++) {
           var key = localStorage.key(i);
           var value = localStorage[key];
-//          console.log(key + " => " + value);
           if (value.length > 0) {
             $('ul#lists').append('<li><a href="#list-multi" data-transition="slide">'+key+'</a></li>');
             $('ul#lists').listview('refresh');
@@ -26,7 +25,44 @@
 
       // click listener of the list of lists
       $('ul#lists').on('click', 'a', function() {
+        //set current header title
         $('#list-multi h1 span#list-header-title').text($(this).text());
+        // list items on current list
+        var currentItems = Array();
+        currentItems = JSON.parse(localStorage.getItem($(this).text()));
+        // remove items before rebuilding
+        $('ul#list-items').empty(); 
+        $('ul#list-items').append('' + 
+          '<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b ui-corner-top">' +
+            '<div class="ui-grid-a">' +
+              '<div class="ui-block-a">' +
+                '<div>Who?</div>' +
+              '</div>' +
+              '<div class="ui-block-b">' +
+                '<div>What?</div>' +
+              '</div>' +
+            '</div>' +
+          '</li>' +
+        '');
+        // add items to list display
+        var i = 0;
+        $.each(currentItems, function(i) {
+          $('ul#list-items').append('' +
+            '<li>' +
+              '<div class="ui-grid-a">' +
+                '<div class="ui-block-a">' +
+                  '<div>'+ currentItems[i].who +'</div>' +
+                '</div>' +
+                '<div class="ui-block-b">' +
+                  '<div>'+ currentItems[i].what +'</div>' +
+                '</div>' +
+              '</div>' +
+            '</li>' +
+          '');
+          i++;
+        });
+        // TODO: this refresh does cause an error... but i'm leaving this out for now
+        $('ul#list-items').listview('refresh');
       });
 
       // add a list TODO:(and add to a list...)
@@ -42,10 +78,9 @@
       // function to check if list has anything in it and if so return value
       var checkForItems = function(lsk) {
         if(localStorage.getItem(lsk) != null ) {
-//          return "item from db";
           return localStorage.getItem(lsk);
         } else {
-          return "n/a";
+          return "";
         }
       }
 
@@ -65,11 +100,12 @@
       var items = [];
       $('a#list-add-item').click(function() {
         // grab list of existing values from database and parse into array of strings
-        items = JSON.parse(localStorage.getItem($('#list-create-multi h1').text()));
+        if (localStorage.getItem($('#list-create-multi h1').text()).length > 0) {
+          items = JSON.parse(localStorage.getItem($('#list-create-multi h1').text()));
+        }
         // add new value to end of array as object
         var item = new itemobject($('#thank-who').val(), $('#thank-what').val());
         items.push(item);
-console.log(JSON.stringify(items));
         // save item to database
         localStorage.setItem($('#list-create-multi h1').text(), JSON.stringify(items));
         // clear added item form
@@ -105,7 +141,7 @@ console.log(JSON.stringify(items));
       </div>
       <h2>Lists</h2>
       <ul data-role="listview" data-inset="true" id="lists">
-	  </ul>
+      </ul>
     </div><!-- /content -->
   
     <div data-role="footer">		
@@ -159,6 +195,10 @@ console.log(JSON.stringify(items));
       <h1>List: <span id="list-header-title"></span></h1>
       <a href="#list-delete" data-rel="dialog" data-icon="delete">Delete</a>
     </div><!-- /header -->
+    <div data-role="content">
+      <ul data-role="listview" data-inset="true" id="list-items">
+      </ul>
+    </div><!-- /content -->
   </div><!-- /page #list-multi -->
   
   <div data-role="page" id="list-delete">
