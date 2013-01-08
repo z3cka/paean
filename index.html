@@ -33,6 +33,18 @@
 
   </script>
 
+  <script type="text/template" id="edit-thank-template">
+    <form class="edit-thank-form">
+      <legend>Thank Who?</legend>
+      <label>Name</label>
+      <input type="text" name="name" />
+      <label>Gift</label>
+      <input type="text" name="gift" />
+      <hr />
+      <button type="submit" class="btn">Add</button>
+    </form>
+  </script>
+
   <script src="js/libs/jquery.min.js" type="text/javascript"></script>
   <script src="js/libs/underscore-min.js" type="text/javascript"></script>
   <script src="js/libs/backbone-min.js"></script>
@@ -41,7 +53,7 @@
     // create Collection
     window.Thanks = Backbone.Collection.extend({
 
-      localStorage: new Backbone.LocalStorage("Thanks"), // Unique name within your app.
+      localStorage: new Backbone.LocalStorage("Thanks")
 
       // ... everything else is normal.
 
@@ -71,9 +83,10 @@
     var EditThank = Backbone.View.extend({
       el: '.page',
       render: function () {
-        this.$el.html('show the thank form here');
+        var template = _.template($('#edit-thank-template').html(), {});
+        this.$el.html(template);
       }
-    })
+    });
 
     var Router = Backbone.Router.extend({
       routes: {
