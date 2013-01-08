@@ -13,7 +13,7 @@
   </div>
 
   <script type="text/template" id="thank-list-template">
-  <a href="#/new" class="btn btn-primary">New Thank</a>
+  <a href="#/add" class="btn btn-primary">Thank Someone</a>
   <hr />
   <table class="table striped">
     <thead>
@@ -79,7 +79,7 @@
     });
 
     var Thank = Backbone.Model.extend({
-      url: '/thanks'
+      urlRoot: 'paean/thanks'
     });
 
     var ThankList = Backbone.View.extend({
@@ -110,7 +110,13 @@
       },
       saveThank: function (ev) {
         var thankDetails = $(ev.currentTarget).serializeObject();
-        console.log(thankDetails);
+        var thank = new Thank();
+        thank.save(thankDetails, {
+          success: function (thank) {
+//            console.log(thank.toJSON(thankDetails))
+            console.log(thank);
+          }
+        });
         return false;
       }
     });
@@ -118,7 +124,7 @@
     var Router = Backbone.Router.extend({
       routes: {
         '': 'home',
-        'new': "editThank"
+        'add': "editThank"
       }
     });
 
@@ -127,11 +133,9 @@
 
     var router = new Router();
     router.on('route:home', function () {
-      console.log('We have loaded the front page');
       thankList.render();
     });
     router.on('route:editThank', function () {
-      console.log('show thank form');
       editThank.render();
     });
     Backbone.history.start();
