@@ -1,124 +1,8 @@
 <!doctype html>
 <html> 
 <head> 
-  <title>Paean via Backbone</title>
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.min.css">
-
-
-  <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-  <script type="text/javascript">
-//    $(document).ready(function(){
-//      // load lists
-//      var loadLists = function() {
-//        // remove lists before rebuilding
-//        $('ul#lists').empty();
-//        for(var i=0, len=localStorage.length; i<len; i++) {
-//          var key = localStorage.key(i);
-//          var value = localStorage[key];
-//          if (value.length > 0) {
-//            $('ul#lists').append('<li><a href="#list-multi" data-transition="slide">'+key+'</a></li>');
-//            $('ul#lists').listview('refresh');
-//          }
-//        }
-//      }
-//      loadLists();
-//
-//      // click listener of the list of lists
-//      $('ul#lists').on('click', 'a', function() {
-//        //set current header title
-//        $('#list-multi h1 span#list-header-title').text($(this).text());
-//        // list items on current list
-//        var currentItems = Array();
-//        currentItems = JSON.parse(localStorage.getItem($(this).text()));
-//        // remove items before rebuilding
-//        $('ul#list-items').empty();
-//        $('ul#list-items').append('' +
-//          '<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b ui-corner-top">' +
-//            '<div class="ui-grid-a">' +
-//              '<div class="ui-block-a">' +
-//                '<div>Who?</div>' +
-//              '</div>' +
-//              '<div class="ui-block-b">' +
-//                '<div>What?</div>' +
-//              '</div>' +
-//            '</div>' +
-//          '</li>' +
-//        '');
-//        // add items to list display
-//        var i = 0;
-//        $.each(currentItems, function(i) {
-//          $('ul#list-items').append('' +
-//            '<li>' +
-//              '<div class="ui-grid-a">' +
-//                '<div class="ui-block-a">' +
-//                  '<div>'+ currentItems[i].who +'</div>' +
-//                '</div>' +
-//                '<div class="ui-block-b">' +
-//                  '<div>'+ currentItems[i].what +'</div>' +
-//                '</div>' +
-//              '</div>' +
-//            '</li>' +
-//          '');
-//          i++;
-//        });
-//        // TODO: this refresh does cause an error... but i'm leaving this out for now
-//        $('ul#list-items').listview('refresh');
-//      });
-//
-//      // add a list TODO:(and add to a list...)
-//      $('#list-add').on('click', function() {
-//        var localStorageKey = $('#event-title').val();
-//        // store event
-//        localStorage.setItem(localStorageKey, checkForItems(localStorageKey));
-//        // put event in header of list create page
-//        var item = localStorage.getItem(localStorageKey);
-//        $('#list-create-multi h1').text(localStorageKey);
-//      });
-//
-//      // function to check if list has anything in it and if so return value
-//      var checkForItems = function(lsk) {
-//        if(localStorage.getItem(lsk) != null ) {
-//          return localStorage.getItem(lsk);
-//        } else {
-//          return "";
-//        }
-//      }
-//
-//      // delete list
-//      $('#list-delete-yes').click(function() {
-//        localStorage.removeItem($('#list-multi h1 span#list-header-title').text());
-//        loadLists();
-//      });
-//      // reload lists when returning home
-//      $('a.home').click(function() {
-//        loadLists();
-//        // clear event title
-//        $('#event-title').val("");
-//      });
-//
-//      // add item to list
-//      var items = [];
-//      $('a#list-add-item').click(function() {
-//        // grab list of existing values from database and parse into array of strings
-//        if (localStorage.getItem($('#list-create-multi h1').text()).length > 0) {
-//          items = JSON.parse(localStorage.getItem($('#list-create-multi h1').text()));
-//        }
-//        // add new value to end of array as object
-//        var item = new itemobject($('#thank-who').val(), $('#thank-what').val());
-//        items.push(item);
-//        // save item to database
-//        localStorage.setItem($('#list-create-multi h1').text(), JSON.stringify(items));
-//        // clear added item form
-//        $('#thank-who, #thank-what').val("");
-//      });
-//
-//      // constructor for itemobject
-//      function itemobject(p1,p2) {
-//        this.who = p1;
-//        this.what = p2;
-//      }
-//    });
-  </script>
+  <title>Paean via Backbone & Bootstrap</title>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head> 
 <body>
 
@@ -128,15 +12,20 @@
     <div class="page"></div>
   </div>
 
-
   <script src="js/libs/jquery.min.js" type="text/javascript"></script>
   <script src="js/libs/underscore-min.js" type="text/javascript"></script>
   <script src="js/libs/backbone-min.js"></script>
   <script>
-    var router = Backbone.Router.extend({
-
+    var Router = Backbone.Router.extend({
+      routes: {
+        '': 'home'
+      }
     });
+    var router = new Router();
+    router.on('route:home', function () {
+      console.log('We have loaded the front page');
+    });
+    Backbone.history.start();
   </script>
-
 </body>
 </html>
