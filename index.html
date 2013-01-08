@@ -40,7 +40,6 @@
       <input type="text" name="name" />
       <label>Gift</label>
       <input type="text" name="gift" />
-      <hr />
       <button type="submit" class="btn">Add</button>
     </form>
   </script>
@@ -70,16 +69,14 @@
 
   <script>
     // create Collection
-    window.Thanks = Backbone.Collection.extend({
-
-      localStorage: new Backbone.LocalStorage("Thanks")
-
-      // ... everything else is normal.
-
+    var Thanks = Backbone.Collection.extend({
+      model: Thank,
+      localStorage: new Backbone.LocalStorage("thanks-backbone")
     });
 
+    // Model
     var Thank = Backbone.Model.extend({
-      urlRoot: 'paean/thanks'
+//      urlRoot: '/thanks'
     });
 
     var ThankList = Backbone.View.extend({
@@ -98,7 +95,8 @@
         });
       }
     });
-
+    
+    // List view
     var EditThank = Backbone.View.extend({
       el: '.page',
       render: function () {
@@ -106,7 +104,8 @@
         this.$el.html(template);
       },
       events: {
-        'submit .edit-thank-form': 'saveThank'
+//        'submit .edit-thank-form': 'saveThank'
+        'click .edit-thank-form': 'saveThank'
       },
       saveThank: function (ev) {
         var thankDetails = $(ev.currentTarget).serializeObject();
@@ -115,6 +114,7 @@
           success: function (thank) {
 //            console.log(thank.toJSON(thankDetails))
             console.log(thank);
+//            router.navigate('', {trigger:true});
           }
         });
         return false;
