@@ -1,7 +1,7 @@
 <!doctype html>
 <html> 
 <head> 
-  <title>Paean via Backbone & Bootstrap</title>
+  <title>Paean via Backbone, Bootstrap & localStorage</title>
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head> 
 <body>
@@ -37,9 +37,9 @@
     <form class="edit-thank-form">
       <legend>Thank Who?</legend>
       <label>Name</label>
-      <input type="text" name="name" />
+      <input type="text" name="name" id="name" />
       <label>Gift</label>
-      <input type="text" name="gift" />
+      <input type="text" name="gift" id="gift" />
       <hr />
       <button type="submit" class="btn" id="edit-thank-submit-button">Add</button>
     </form>
@@ -116,19 +116,13 @@
         'submit .edit-thank-form': 'saveThank'
 //        'click #edit-thank-submit-button': 'saveThank'
       },
-      saveThank: function (ev) {
-//console.log(ev);
-        var thankDetails = $(ev.currentTarget).serializeObject();
-	//create the thank --> I think this is called instanciating the Object
+      saveThank: function () {
+//        var value = this.input.val();
+console.log(this.$('input#name').val());
         var thank = new Thank();
-//console.log(thank);
-        //save a value to the thank
-//        thank.save(thankDetails);
-console.log(thankDetails);
-console.log(this.model);
-        this.model.save({name: thankDetails.name});
-        thank.save({name: thankDetails.name});
+        thank.name = this.$('input#name').val();
         return false;
+        thank.save({name: thank.name});
       }
     });
 
