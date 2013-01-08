@@ -49,6 +49,25 @@
   <script src="js/libs/underscore-min.js" type="text/javascript"></script>
   <script src="js/libs/backbone-min.js"></script>
   <script src="js/libs/backbone.localStorage.js"></script>
+
+  <script>
+    $.fn.serializeObject = function() {
+      var o = {};
+      var a = this.serializeArray();
+      $.each(a, function() {
+        if (o[this.name] !== undefined) {
+          if (!o[this.name].push) {
+            o[this.name] = [o[this.name]];
+          }
+          o[this.name].push(this.value || '');
+        } else {
+          o[this.name] = this.value || '';
+        }
+      });
+      return o;
+    };
+  </script>
+
   <script>
     // create Collection
     window.Thanks = Backbone.Collection.extend({
@@ -85,6 +104,14 @@
       render: function () {
         var template = _.template($('#edit-thank-template').html(), {});
         this.$el.html(template);
+      },
+      events: {
+        'submit .edit-thank-form': 'saveThank'
+      },
+      saveThank: function (ev) {
+        var thankDetails = $(ev.currentTarget).serializeObject();
+        console.log(thankDetails);
+        return false;
       }
     });
 
