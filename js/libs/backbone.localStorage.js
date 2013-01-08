@@ -1,4 +1,3 @@
-
 /**
  * Backbone localStorage Adapter
  * https://github.com/jeromegn/Backbone.localStorage
