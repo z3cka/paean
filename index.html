@@ -21,11 +21,16 @@
   <script src="js/libs/jquery.min.js" type="text/javascript"></script>
   <script src="js/libs/underscore-min.js" type="text/javascript"></script>
   <script src="js/libs/backbone-min.js"></script>
-  <script src="js/libs/backbone-localstorage.js"></script>
+  <script src="js/libs/backbone.localStorage.js"></script>
   <script>
-    var Thanks = Backbone.Collection.extend({
-      url: '/thanks'
-    })
+    // create Collection
+    window.Thanks = Backbone.Collection.extend({
+
+      localStorage: new Backbone.LocalStorage("Thanks"), // Unique name within your app.
+
+      // ... everything else is normal.
+
+    });
 
     var ThankList = Backbone.View.extend({
       el: '.page',
