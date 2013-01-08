@@ -1,216 +1,142 @@
-<!DOCTYPE html> 
+<!doctype html>
 <html> 
 <head> 
-  <title>Paean</title> 
-  <meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0"> 
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-  <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+  <title>Paean via Backbone</title>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.min.css">
+
+
   <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
   <script type="text/javascript">
-    $(document).ready(function(){
-      // load lists
-      var loadLists = function() {
-        // remove lists before rebuilding
-        $('ul#lists').empty();
-        for(var i=0, len=localStorage.length; i<len; i++) {
-          var key = localStorage.key(i);
-          var value = localStorage[key];
-          if (value.length > 0) {
-            $('ul#lists').append('<li><a href="#list-multi" data-transition="slide">'+key+'</a></li>');
-            $('ul#lists').listview('refresh');
-          }
-        }
-      }
-      loadLists();
-
-      // click listener of the list of lists
-      $('ul#lists').on('click', 'a', function() {
-        //set current header title
-        $('#list-multi h1 span#list-header-title').text($(this).text());
-        // list items on current list
-        var currentItems = Array();
-        currentItems = JSON.parse(localStorage.getItem($(this).text()));
-        // remove items before rebuilding
-        $('ul#list-items').empty(); 
-        $('ul#list-items').append('' + 
-          '<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b ui-corner-top">' +
-            '<div class="ui-grid-a">' +
-              '<div class="ui-block-a">' +
-                '<div>Who?</div>' +
-              '</div>' +
-              '<div class="ui-block-b">' +
-                '<div>What?</div>' +
-              '</div>' +
-            '</div>' +
-          '</li>' +
-        '');
-        // add items to list display
-        var i = 0;
-        $.each(currentItems, function(i) {
-          $('ul#list-items').append('' +
-            '<li>' +
-              '<div class="ui-grid-a">' +
-                '<div class="ui-block-a">' +
-                  '<div>'+ currentItems[i].who +'</div>' +
-                '</div>' +
-                '<div class="ui-block-b">' +
-                  '<div>'+ currentItems[i].what +'</div>' +
-                '</div>' +
-              '</div>' +
-            '</li>' +
-          '');
-          i++;
-        });
-        // TODO: this refresh does cause an error... but i'm leaving this out for now
-        $('ul#list-items').listview('refresh');
-      });
-
-      // add a list TODO:(and add to a list...)
-      $('#list-add').on('click', function() {
-        var localStorageKey = $('#event-title').val();
-        // store event
-        localStorage.setItem(localStorageKey, checkForItems(localStorageKey));
-        // put event in header of list create page
-        var item = localStorage.getItem(localStorageKey);
-        $('#list-create-multi h1').text(localStorageKey);
-      });
-
-      // function to check if list has anything in it and if so return value
-      var checkForItems = function(lsk) {
-        if(localStorage.getItem(lsk) != null ) {
-          return localStorage.getItem(lsk);
-        } else {
-          return "";
-        }
-      }
-
-      // delete list
-      $('#list-delete-yes').click(function() {
-        localStorage.removeItem($('#list-multi h1 span#list-header-title').text());
-        loadLists();
-      });
-      // reload lists when returning home
-      $('a.home').click(function() {
-        loadLists();
-        // clear event title
-        $('#event-title').val("");
-      });
-
-      // add item to list
-      var items = [];
-      $('a#list-add-item').click(function() {
-        // grab list of existing values from database and parse into array of strings
-        if (localStorage.getItem($('#list-create-multi h1').text()).length > 0) {
-          items = JSON.parse(localStorage.getItem($('#list-create-multi h1').text()));
-        }
-        // add new value to end of array as object
-        var item = new itemobject($('#thank-who').val(), $('#thank-what').val());
-        items.push(item);
-        // save item to database
-        localStorage.setItem($('#list-create-multi h1').text(), JSON.stringify(items));
-        // clear added item form
-        $('#thank-who, #thank-what').val("");
-      });
-
-      // constructor for itemobject
-      function itemobject(p1,p2) {
-        this.who = p1;
-        this.what = p2;
-      }
-    });
+//    $(document).ready(function(){
+//      // load lists
+//      var loadLists = function() {
+//        // remove lists before rebuilding
+//        $('ul#lists').empty();
+//        for(var i=0, len=localStorage.length; i<len; i++) {
+//          var key = localStorage.key(i);
+//          var value = localStorage[key];
+//          if (value.length > 0) {
+//            $('ul#lists').append('<li><a href="#list-multi" data-transition="slide">'+key+'</a></li>');
+//            $('ul#lists').listview('refresh');
+//          }
+//        }
+//      }
+//      loadLists();
+//
+//      // click listener of the list of lists
+//      $('ul#lists').on('click', 'a', function() {
+//        //set current header title
+//        $('#list-multi h1 span#list-header-title').text($(this).text());
+//        // list items on current list
+//        var currentItems = Array();
+//        currentItems = JSON.parse(localStorage.getItem($(this).text()));
+//        // remove items before rebuilding
+//        $('ul#list-items').empty();
+//        $('ul#list-items').append('' +
+//          '<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b ui-corner-top">' +
+//            '<div class="ui-grid-a">' +
+//              '<div class="ui-block-a">' +
+//                '<div>Who?</div>' +
+//              '</div>' +
+//              '<div class="ui-block-b">' +
+//                '<div>What?</div>' +
+//              '</div>' +
+//            '</div>' +
+//          '</li>' +
+//        '');
+//        // add items to list display
+//        var i = 0;
+//        $.each(currentItems, function(i) {
+//          $('ul#list-items').append('' +
+//            '<li>' +
+//              '<div class="ui-grid-a">' +
+//                '<div class="ui-block-a">' +
+//                  '<div>'+ currentItems[i].who +'</div>' +
+//                '</div>' +
+//                '<div class="ui-block-b">' +
+//                  '<div>'+ currentItems[i].what +'</div>' +
+//                '</div>' +
+//              '</div>' +
+//            '</li>' +
+//          '');
+//          i++;
+//        });
+//        // TODO: this refresh does cause an error... but i'm leaving this out for now
+//        $('ul#list-items').listview('refresh');
+//      });
+//
+//      // add a list TODO:(and add to a list...)
+//      $('#list-add').on('click', function() {
+//        var localStorageKey = $('#event-title').val();
+//        // store event
+//        localStorage.setItem(localStorageKey, checkForItems(localStorageKey));
+//        // put event in header of list create page
+//        var item = localStorage.getItem(localStorageKey);
+//        $('#list-create-multi h1').text(localStorageKey);
+//      });
+//
+//      // function to check if list has anything in it and if so return value
+//      var checkForItems = function(lsk) {
+//        if(localStorage.getItem(lsk) != null ) {
+//          return localStorage.getItem(lsk);
+//        } else {
+//          return "";
+//        }
+//      }
+//
+//      // delete list
+//      $('#list-delete-yes').click(function() {
+//        localStorage.removeItem($('#list-multi h1 span#list-header-title').text());
+//        loadLists();
+//      });
+//      // reload lists when returning home
+//      $('a.home').click(function() {
+//        loadLists();
+//        // clear event title
+//        $('#event-title').val("");
+//      });
+//
+//      // add item to list
+//      var items = [];
+//      $('a#list-add-item').click(function() {
+//        // grab list of existing values from database and parse into array of strings
+//        if (localStorage.getItem($('#list-create-multi h1').text()).length > 0) {
+//          items = JSON.parse(localStorage.getItem($('#list-create-multi h1').text()));
+//        }
+//        // add new value to end of array as object
+//        var item = new itemobject($('#thank-who').val(), $('#thank-what').val());
+//        items.push(item);
+//        // save item to database
+//        localStorage.setItem($('#list-create-multi h1').text(), JSON.stringify(items));
+//        // clear added item form
+//        $('#thank-who, #thank-what').val("");
+//      });
+//
+//      // constructor for itemobject
+//      function itemobject(p1,p2) {
+//        this.who = p1;
+//        this.what = p2;
+//      }
+//    });
   </script>
 </head> 
 <body>
-  
-  <div data-role="page" id="home">
-    
-    <div data-role="header">
-      <h1>Paean</h1>
-    </div><!-- /header -->
-  
-    <div data-role="content">
-      <label>What event will you be thanking people for?</label>
-      <input type="text" name="event-title" id="event-title" value="" />
-      <div class="ui-grid-a">
-        <div class="ui-block-a">
-          <p></p>
-        </div>
-        <div class="ui-block-b">
-          <a href="#list-create-multi" id="list-add" data-role="button" data-icon="arrow-r" data-iconpos="right" data-theme="b" data-transition="slide">Add List</a>
-        </div>
-      </div>
-      <h2>Lists</h2>
-      <ul data-role="listview" data-inset="true" id="lists">
-      </ul>
-    </div><!-- /content -->
-  
-    <div data-role="footer" data-position="fixed">		
-      <div data-role="navbar" data-iconpos="left">
-        <ul>
-          <li><a href="#" data-icon="home">Lists</a></li>
-          <li><a href="#" data-icon="grid">Active List</a></li>
-        </ul>
-      </div><!-- /navbar -->
-    </div><!-- /footer -->
-  
-  </div><!-- /page -->
-  
-  <div data-role="page" id="list-create-multi">
-    
-    <div data-role="header" data-position="fixed">
-      <a href="#home" class="home" data-role="button" data-icon="arrow-l">Back</a>
-      <h1></h1>
-    </div><!-- /header -->
-    
-    <div data-role="content">  
-      <label>Thank Who?</label>
-      <input type="text" id="thank-who" value="" />
-      <label>For what?</label>
-      <input type="text" id="thank-what" value="" />
-      <div class="ui-grid-a">
-        <div class="ui-block-a">
-          <p></p>
-        </div>
-        <div class="ui-block-b">
-          <a href="#item-added" data-icon="plus" data-iconpos="right" data-rel="popup" data-position-to="window" data-role="button" data-theme="e" id="list-add-item">Add</a>
-          <div data-role="popup" data-overlay-theme="a" id="item-added">
-            <p>Item added to list :-)<p>
-          </div>
-        </div>
-      </div>
-    </div><!-- /content -->
-    <div data-role="footer" data-position="fixed">		
-      <div data-role="navbar" data-iconpos="left">
-        <ul>
-          <li><a href="#home" class="home" data-icon="home">Lists</a></li>
-          <li><a href="#" data-icon="grid">Active List</a></li>
-        </ul>
-      </div><!-- /navbar -->
-    </div><!-- /footer -->
-  </div><!-- /page #list-create-multi -->
 
-  <div data-role="page" id="list-multi">
-    <div data-role="header" data-position="fixed">
-      <a href="#home" class="home" data-role="button" data-icon="arrow-l">Back</a>
-      <h1>List: <span id="list-header-title"></span></h1>
-      <a href="#list-delete" data-rel="dialog" data-icon="delete">Delete</a>
-    </div><!-- /header -->
-    <div data-role="content">
-      <ul data-role="listview" data-inset="true" id="list-items">
-      </ul>
-    </div><!-- /content -->
-  </div><!-- /page #list-multi -->
-  
-  <div data-role="page" id="list-delete">
-    <div data-role="header" data-theme="c">
-      <h1>Are you sure?</h1>
-    </div><!-- /header -->
-    
-    <div data-role="content">
-     <a href="#list-multi" data-role="button" data-icon="arrow-l">No, don't</a>
-     <a href="#home" class="home" data-role="button" data-icon="delete" id="list-delete-yes">Yes, Delete!</a>
-    </div><!-- /content -->
-  </div><!-- /page #list-delete -->
-  
+  <div class="container">
+    <h1>Lists</h1>
+    <hr />
+    <div class="page"></div>
+  </div>
+
+
+  <script src="js/libs/jquery.min.js" type="text/javascript"></script>
+  <script src="js/libs/underscore-min.js" type="text/javascript"></script>
+  <script src="js/libs/backbone-min.js"></script>
+  <script>
+    var router = Backbone.Router.extend({
+
+    });
+  </script>
+
 </body>
 </html>
